@@ -8,6 +8,6 @@ int main(int argc, char *argv[]){
     traco='-';
     Um='1';
 
-    printf("%c%c%c%c%c são os numeros %d %d %d %d %d",P, D, S,traco, Um,P, D, S,traco, Um );
+    printf("%d %d %d %d %d",P, D, S,traco, Um);
     getchar();
 }
