@@ -1,0 +1,1 @@
+int populacao (unsigned long nHabA, double anualTaxA, unsigned long nHabB, double anualTaxB);
