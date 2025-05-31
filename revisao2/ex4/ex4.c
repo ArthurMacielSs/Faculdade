@@ -1,35 +1,36 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 
-void frequencia_str(const char* dados_brutos){
+void frequencia_str(const char dados_brutos[]) {
     int tamanho = strlen(dados_brutos);
-    int contador=1;
-    char stringT[tamanho];
-    int indcStringT=0;
+    int contador;
+    char jaContado[256] = {0}; // Array para verificar se o caractere já foi contado
 
-    for(int i=0; i<=tamanho; i++){
-        for(int j=0; j<=tamanho; j++){
-            
-            if(dados_brutos[i]==dados_brutos[j]){
-            contador++;
+    for (int i = 0; i < tamanho; i++) {
+        char atual = dados_brutos[i];
+
+        if (jaContado[(unsigned char)atual]) {
+            continue; // Pula se já contou esse caractere
         }
-        
-    }
-        stringT[indcStringT]==dados_brutos[i];
-        for(int z =0; z<=strlen(stringT); z++){
-            if(dados_brutos[i]==stringT[z]){
-                
+
+        contador = 0;
+
+        for (int j = 0; j < tamanho; j++) {
+            if (dados_brutos[j] == atual) {
+                contador++;
             }
         }
-        printf("%c aparece  %d vezes \n", dados_brutos[i], contador);
-        contador =0;
-       
+
+        jaContado[(unsigned char)atual] = 1;
+
+        printf("%c aparece %d vezes\n", atual, contador);
     }
+
+    printf("\n");
 }
 
 int main() {
- printf("--- Teste 1 ---\n");
- frequencia_str("PDS1PDS1PDS1 ");
- return 0;
+    printf("--- Teste 1 ---\n");
+    frequencia_str("PDS1PDS1PDS1");
+    return 0;
 }
