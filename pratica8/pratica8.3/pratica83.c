@@ -21,7 +21,6 @@ float verificaPonto(struct retangulo ret1, struct ponto p1)
     
 };
 
-
 int main(int argc, char * argv[]){
     struct retangulo ret1;
     struct ponto ponto1;
@@ -30,7 +29,7 @@ int main(int argc, char * argv[]){
 
     while(1){
           scanf("%f%f", &ret1.p2.px, &ret1.p2.py);
-        if (ret1.p2.px < ret1.p1.px && ret1.p2.py < ret1.p1.py) {
+        if (ret1.p2.px > ret1.p1.px && ret1.p2.py < ret1.p1.py) {
             break;
         }
         else{

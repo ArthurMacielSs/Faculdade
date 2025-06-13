@@ -1,47 +1,43 @@
 #include <stdio.h>
 #include <string.h> 
+#include <stdlib.h>
 
-int main(int argc, char *argv[]){
+int main() {
     FILE *arq;
-    int confereL =1, idMaisVelho=0, idMaisNovo=0, compara =0;
-    char maisVelho[100], maisNovo[100], teste[100], verifica[100];
+    int confereL = 1, idadeMaisVelho = -1, idadeMaisNovo = 9999, idadeAtual;
+    char maisVelho[100], maisNovo[100], linha[100], nomeAtual[100];
 
     arq = fopen("case.txt", "r");
 
-    if(arq != NULL){
-        while(fscanf(arq,"%s", teste) != EOF){
-        if(confereL%2 != 0){
-            fscanf(arq, "%s", teste);
-            printf("%s\n", teste);
+    if (arq != NULL) {
+        while (fgets(linha, sizeof(linha), arq)!= NULL) {
+            linha[strcspn(linha, "\n")] = 0; // remove newline
+
+            if (confereL % 2 != 0) {
+                strcpy(nomeAtual, linha);
+            } else {
+                idadeAtual = atoi(linha);
+
+                if (idadeAtual > idadeMaisVelho) {
+                    idadeMaisVelho = idadeAtual;
+                    strcpy(maisVelho, nomeAtual);
+                }
+
+                if (idadeAtual < idadeMaisNovo) {
+                    idadeMaisNovo = idadeAtual;
+                    strcpy(maisNovo, nomeAtual);
+                }
+            }
             confereL++;
         }
-        if(confereL%2==0){
-            fscanf(arq, "%d", &compara);
-            if(compara<idMaisNovo){
-                idMaisNovo=compara;
-                 strcpy(maisNovo, teste);
-                 confereL++;
 
-            }
-            else if(compara>idMaisVelho){
-                idMaisVelho=compara;
-                strcpy(maisVelho, teste);
-                confereL++;
-            }
-        }
-
-        } 
-
-        printf("a %s\n", maisVelho);
-        printf("b %s\n", maisNovo);
+        printf("Mais velho: %s (%d anos)\n", maisVelho, idadeMaisVelho);
+        printf("Mais novo: %s (%d anos)\n", maisNovo, idadeMaisNovo);
 
         fclose(arq);
         return 0;
-    }
-
-    
-    else {
+    } else {
+        perror("Erro ao abrir o arquivo");
         return 1;
     }
-
 }
