@@ -22,3 +22,19 @@ int main() {
 
     return 0;
 }*/
+
+#include <stdio.h>
+#include <math.h>
+
+int inverteNumero(int x) {
+    if (x < 10){
+        return x;
+
+    int num_digitos = (int)log10(x);
+    }
+    else{
+        int numero = (x % 10) * pow(10, num_digitos) + inverteNumero(x / 10);
+      return numero;
+   } 
+ }
+

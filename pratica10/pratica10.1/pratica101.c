@@ -15,3 +15,17 @@ float *read_array(int *n){
 void free_array (float *array){
     free(array);
 }
+
+int main() {
+    int tamanho;
+    float *vetor = read_array(&tamanho);
+
+    printf("Valores lidos:\n");
+    for (int i = 0; i < tamanho; i++) {
+        printf("%.2f ", vetor[i]);
+    }
+    printf("\n");
+
+    free_array(vetor);
+    return 0;
+}
