@@ -3,8 +3,7 @@
 
 void imprimeInvertida(char str[]){
     int tam=strlen(str);
-    if(tam==2){
-       // printf("%s", str);
+    if(tam==1){
        printf("%c", str[tam-1]);
         return;
     }
