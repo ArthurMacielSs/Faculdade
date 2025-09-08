@@ -36,7 +36,7 @@ double calcular_distancia(Robo* robo) {
 }
 
 Robo* determinar_robo_mais_proximo(Robo** naves, int n) {
-    Robo* teste;
+    Robo* teste = nullptr;
     double distancia1=  this->calcular_distancia(naves[0]);
     double distancia2 = distancia1;
     double menordistancia=0;
