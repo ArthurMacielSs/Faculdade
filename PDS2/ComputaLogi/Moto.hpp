@@ -1,5 +1,5 @@
-#ifndef MOTO_HPP
-#define MOTO_HPP
+#ifndef MOT_HPP
+#define MOT_HPP
 
 #include "Veiculo.hpp"
 
@@ -17,7 +17,7 @@ public:
    // Resultado final:
     //Tipo: <tipo>, Placa: <placa>, Ano: <ano>, Capacidade: <capacidade>, Cilindradas: <cilindradas>
     double custo_viagem(double km, double carga_kg); //— retorna 0.80*km + 25.0*carga_kg.
-    ~Moto();
+    ~Moto() override;
 };
 
 #endif

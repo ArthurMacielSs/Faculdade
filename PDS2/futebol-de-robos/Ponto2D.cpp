@@ -1,21 +1,13 @@
-#include <iostream>
 #include "Ponto2D.hpp"
-#include <cmath>
+#include <cmath> // Para sqrt e pow
 
-using namespace std;
+// Implementação do construtor padrão
+Ponto2D::Ponto2D() : px(0), py(0) {}
 
-struct Ponto2D{
-    double px;
-    double py;
+// Implementação do construtor com parâmetros
+Ponto2D::Ponto2D(double x, double y) : px(x), py(y) {}
 
-Ponto2D (double x, double y){
-    this->px = x;
-    this->py = y;
+// Implementação da função de distância
+double Ponto2D::calcular_distancia(Ponto2D* ponto) {
+    return sqrt(pow(this->px - ponto->px, 2) + pow(this->py - ponto->py, 2));
 }
-
-double calcular_distancia (Ponto2D * ponto){
-    double distancia = sqrt( pow(this->px - ponto->px, 2) + pow(this->py - ponto->py, 2));
-
-    return distancia;
-}
-};

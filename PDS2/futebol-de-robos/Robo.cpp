@@ -1,86 +1,71 @@
 #include "Robo.hpp" 
-#include <iostream>  
+#include <iostream>
 #include <cmath>
+#include <limits> // Para std::numeric_limits
 
+Robo::Robo(int i, Ponto2D pos, bool bol) : 
+    _energia(100), 
+    _com_bola(bol), 
+    id(i), 
+    position(pos) 
+{}
 
-struct Robo {
-    // --- Membros ---
-    double _energia;
-    bool _com_bola;
-    int id;
-    Ponto2D position;
-Robo(int i, const Ponto2D& pos, bool bol) : _energia(100), _com_bola(bol),id(i), position(pos){}
-
-void mover(double v, double th, double t) {
-
+void Robo::mover(double v, double th, double t) {
     double vx = v * cos(th); 
     double vy = v * sin(th); 
     double desloc_x = vx * t;
     double desloc_y = vy * t;
+    
     this->position.px += desloc_x;
     this->position.py += desloc_y;
-    double distancia = v * t;
     
+    double distancia_percorrida = sqrt(pow(desloc_x, 2) + pow(desloc_y, 2));
+    this->_energia -= distancia_percorrida;
 
-    if (this->_energia<=0){
-        this->_energia=0;
-    }
-    else {
-        this->_energia-=distancia;
+    if (this->_energia < 0) {
+        this->_energia = 0;
     }
 }
 
-double calcular_distancia(Robo* robo) {
-    double distancia = this->position.calcular_distancia(&robo->position);
-    return distancia;
+double Robo::calcular_distancia(Robo* robo) {
+    return this->position.calcular_distancia(&robo->position);
 }
 
-Robo* determinar_robo_mais_proximo(Robo** naves, int n) {
-    Robo* teste = nullptr;
-    double distancia1=  this->calcular_distancia(naves[0]);
-    double distancia2 = distancia1;
-    double menordistancia=0;
-    
-    for(int i=0; i<n; i++){
-    if(naves[i]->id==this->id){
-        continue;
-    }
-    else{
-       distancia1 = this->calcular_distancia(naves[i]);
-       if(distancia1<distancia2){
-        menordistancia= distancia1;
-        teste = &*naves[i];
-       }
-       distancia2= distancia1;
+Robo* Robo::determinar_robo_mais_proximo(Robo** naves, int n) {
+    Robo* robo_mais_proximo = nullptr;
+    double menor_distancia = std::numeric_limits<double>::max();
 
-       
-
-    }
-    }
-    return teste;
-    
-}
-
-void passar_bola(Robo** time, int n) {
-    Robo *teste;
-    for(int i=0; i<n; i++){
-
-        if(this->_com_bola){
-           teste=determinar_robo_mais_proximo(time, n);
-           this->_com_bola= false;
-           teste->_com_bola = true;
-
+    for (int i = 0; i < n; i++) {
+        // Pula a verificação se o robô for ele mesmo
+        if (naves[i]->id == this->id) {
+            continue;
         }
-        else {
-            cin >> "Estou sem a bola!\n";
+
+        double distancia_atual = this->calcular_distancia(naves[i]);
+        if (distancia_atual < menor_distancia) {
+            menor_distancia = distancia_atual;
+            robo_mais_proximo = naves[i];
         }
     }
-
-  
+    return robo_mais_proximo;
 }
 
-void imprimir_status() {
- 
-    cin >> id>> "\t">> this->position.px>> "\t" >>this->position.py >> "\t" >> this->_energia>> "\n";
+void Robo::passar_bola(Robo** time, int n) {
+    if (this->_com_bola) {
+        Robo* robo_alvo = this->determinar_robo_mais_proximo(time, n);
+        if (robo_alvo != nullptr) { // Verifica se encontrou um robô
+            this->_com_bola = false;
+            robo_alvo->_com_bola = true;
+        }
+    } else {
+        std::cout << "Estou sem a bola!" << std::endl;
+    }
 }
-};
+
+void Robo::imprimir_status() {
+    std::cout << this->id << "\t" 
+              << this->position.px << "\t" 
+              << this->position.py << "\t" 
+              << this->_com_bola << "\t" 
+              << this->_energia << std::endl;
+}

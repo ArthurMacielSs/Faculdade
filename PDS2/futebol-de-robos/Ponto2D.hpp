@@ -1,15 +1,17 @@
-#ifndef Ponto2D_h
-#define Ponto2D_h
+#ifndef PONTO2D_HPP
+#define PONTO2D_HPP
 
-using namespace std;
-
-struct Ponto2D{
+struct Ponto2D {
     double px;
     double py;
 
-Ponto2D (double x, double y);
+    // Construtor padrão adicionado para cumprir a "Dica 1"
+    Ponto2D(); 
 
-double calcular_distancia (Ponto2D * ponto);
+    // Construtor que recebe as coordenadas
+    Ponto2D(double x, double y);
+
+    double calcular_distancia(Ponto2D* ponto);
 };
 
 #endif

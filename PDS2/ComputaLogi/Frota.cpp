@@ -1,36 +1,84 @@
 #include "Frota.hpp"
+#include "Caminhao.hpp"
+#include "Carro.hpp"
+#include "Moto.hpp"
+#include "Veiculo.hpp"
 
-void add_carro(std::string placa, int ano, int capacidade_kg, int num_portas){
+#include <iostream>
+#include <iomanip>
 
-} //— cria um Carro (via new) e adiciona ao vetor.
-    void add_moto(std::string placa, int ano, int capacidade_kg, int cilindradas) //— cria Moto e adiciona.
+    void Frota::add_carro(std::string placa, int ano, int capacidade_kg, int num_portas){
+        Carro *_novo_Carro = new Carro(placa, ano, capacidade_kg, num_portas);
+        _veiculos.push_back(_novo_Carro);
+    }
+
+    void Frota::add_moto(std::string placa, int ano, int capacidade_kg, int cilindradas) //— cria Moto e adiciona.
     {
+        Moto* _nova_Moto = new Moto(placa, ano, capacidade_kg, cilindradas);
+        _veiculos.push_back(_nova_Moto);
+    }
+
+    void Frota::add_caminhao(std::string placa, int ano, int capacidade_kg, int num_eixos){
+        Caminhao* _novo_caminhao = new Caminhao(placa, ano, capacidade_kg, num_eixos);
+        _veiculos.push_back(_novo_caminhao);
+    } 
+
+    void Frota::list(){
+        if(_veiculos.empty()==1){
+            std::cout <<"Frota vazia!";
+        }
+        else{
+            for(int i=0; i<_veiculos.size(); i++){
+                _veiculos.at(i)->print_info();
+            }
+        }
 
     }
-    void add_caminhao(std::string placa, int ano, int capacidade_kg, int num_eixos){
-
-    } //— cria Caminhao e adiciona.
-    void list(){
-
-    }
-    //— Se vazio: imprimir Frota vazia!
-    //— Caso contrário: chamar print_info() de cada veiculo, na ordem de cadastro.
-    void find(int indice)  {
+    void Frota::find(int indice) const {
+        if(indice>_veiculos.size()){
+            std::cout << "Erro: indice invalido";
+        }
+        else{
+            _veiculos.at(indice)->print_info();
+        }
 
     }
-   // — Se índice invalido (fora do range): Erro: indice invalido
-    //— Caso contrário: imprimir print_info() do veiculo correspondente.
-    void remover(int indice){
+  
+    void Frota::remover(int indice){
+        if(indice>_veiculos.size()){
+            std::cout << "Erro: indice invalido";
+        }
+        else{
+            delete _veiculos.at(indice);
+            auto aux = _veiculos.begin();
+            aux += indice;
+            _veiculos.erase(aux);
+        }
 
     }
-    //— Se índice invalido: Erro: indice invalido
-    //— Caso contrário: desaloca (imprimindo os destrutores na ordem correta) e remove do vetor.
-    void viagem(int indice, double km, int carga_kg){
+    void Frota::viagem(int indice, double km, int carga_kg){
+         if(indice>_veiculos.size()){
+            std::cout << "Erro: indice invalido";
+        }
+        else if(carga_kg > _veiculos.at(indice)->capacidade_kg()){
+                std::cout << "Erro: carga excede capacidade";
+
+        }
+        else {
+            double custo = _veiculos.at(indice)->custo_viagem(km, carga_kg);
+            std::cout<< std::setprecision(2);
+            std::cout << "Custo: " << custo;
+        }
+    }
+   
+    Frota::~Frota(){
+    for (int i=0; i<_veiculos.size(); i++){
+         delete _veiculos.at(i);
+
 
     }
-    //— Se índice invalido: Erro: indice invalido
-    //— Se carga_kg > capacidade_kg(): Erro: carga excede capacidade
-    //— Caso contrário: calcular via custo_viagem da derivada e imprimir Custo: X.YY (duas casas decimais).
-    ~Frota(){
-        cout
-    } //desalocar todos os veiculos do vetor (respeitando a ordem de destruição).
+    for (int i=0; i<_veiculos.size(); i++){
+        _veiculos.pop_back();
+
+    } 
+}

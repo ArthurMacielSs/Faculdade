@@ -18,7 +18,7 @@ public:
    // Tipo: <tipo>, Placa: <placa>, Ano: <ano>, Capacidade: <capacidade>, Eixos: <num_eixos>
     double custo_viagem(double km, double carga_kg);// — retorna 2.50*km + 60.0*carga_kg.
 
-    ~Caminhao();
+    ~Caminhao() override;
 };
 
 #endif
